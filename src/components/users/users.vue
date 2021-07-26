@@ -10,10 +10,22 @@
     <!-- 搜索 -->
     <el-row class="searchRow">
       <el-col>
-        <el-input class="inputSearch" placeholder="请输入内容" v-model="query">
-          <el-button slot="append" icon="el-icon-search"></el-button>
+        <el-input
+          class="inputSearch"
+          placeholder="请输入内容"
+          v-model="query"
+          clearable
+          @clear="loadUserList()"
+        >
+          <el-button
+            slot="append"
+            icon="el-icon-search"
+            @click="searchUser()"
+          />
         </el-input>
-        <el-button type="primary">添加用户</el-button>
+        <el-button type="primary" @click="addFormVisible = true"
+          >添加用户</el-button
+        >
       </el-col>
       <el-col>
         <el-table :data="userList" style="width: 100%">
@@ -38,13 +50,14 @@
             </template>
           </el-table-column>
           <el-table-column prop="address" label="操作">
-            <template>
+            <template slot-scope="userList">
               <el-button
                 size="mini"
                 plain
                 type="primary"
                 icon="el-icon-edit"
                 circle
+                @click="showEditDia(userList.row)"
               />
               <el-button
                 size="mini"
@@ -52,6 +65,7 @@
                 type="danger"
                 icon="el-icon-delete"
                 circle
+                @click="showDelDia(userList.row.mgId)"
               />
               <el-button
                 size="mini"
@@ -77,6 +91,47 @@
         </el-pagination>
       </el-col>
     </el-row>
+
+    <!-- 添加用户的对话框 -->
+    <el-dialog title="添加用户" :visible.sync="addFormVisible">
+      <el-form :model="form">
+        <el-form-item label="用户名" label-width="120px">
+          <el-input v-model="form.mgName" autocomplete="off" />
+        </el-form-item>
+        <el-form-item label="密码" label-width="120px">
+          <el-input v-model="form.mgPwd" autocomplete="off" />
+        </el-form-item>
+        <el-form-item label="邮箱" label-width="120px">
+          <el-input v-model="form.mgEmail" autocomplete="off" />
+        </el-form-item>
+        <el-form-item label="电话" label-width="120px">
+          <el-input v-model="form.mgMobile" autocomplete="off" />
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="addFormVisible = false">取 消</el-button>
+        <el-button type="primary" @click="addUser()">确 定</el-button>
+      </div>
+    </el-dialog>
+
+    <!-- 编辑用户的对话框 -->
+    <el-dialog title="修改用户" :visible.sync="editFormVisible">
+      <el-form :model="form">
+        <el-form-item label="用户名" label-width="120px">
+          <el-input v-model="form.mgName" autocomplete="off" disabled />
+        </el-form-item>
+        <el-form-item label="邮箱" label-width="120px">
+          <el-input v-model="form.mgEmail" autocomplete="off" />
+        </el-form-item>
+        <el-form-item label="电话" label-width="120px">
+          <el-input v-model="form.mgMobile" autocomplete="off" />
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="editFormVisible = false">取 消</el-button>
+        <el-button type="primary" @click="editUser()">确 定</el-button>
+      </div>
+    </el-dialog>
   </el-card>
 </template>
 
@@ -89,6 +144,15 @@ export default {
       length: 2,
       userList: [],
       total: 0,
+      addFormVisible: false,
+      form: {
+        mgId: -1,
+        mgName: "",
+        mgPwd: "",
+        mgEmail: "",
+        mgMobile: "",
+      },
+      editFormVisible: false,
     };
   },
   created() {
@@ -133,6 +197,72 @@ export default {
       this.start = val;
       //重新获取数据
       this.getUserList();
+    },
+    // 搜索功能
+    searchUser() {
+      this.getUserList();
+    },
+    //清空搜索框，重新加载数据
+    loadUserList() {
+      this.getUserList();
+    },
+    //添加用户
+    async addUser() {
+      // 将对话框隐藏
+      this.addFormVisible = false;
+      // 调用添加接口
+      const res = await this.$http.post("/sm/insert", this.form);
+      const { code, msg } = res.data;
+      if (code === 0) {
+        this.$message.success(msg);
+        //重新更新数据
+        this.getUserList();
+      } else {
+        this.$message.error(msg);
+      }
+      // 清空from表单
+      this.form = {};
+    },
+    //显示删除对话框
+    showDelDia(mgId) {
+      this.$confirm("删除该条记录, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      }).then(async () => {
+        const res = await this.$http.post("/sm/delete?mgId=" + mgId);
+        if (res.data.code === 0) {
+          this.$message.success("删除成功!");
+          //设置当前页是第一页
+          this.start = 1;
+          //重新更新数据
+          this.getUserList();
+        } else {
+          this.$message.error(res.data.msg);
+        }
+      });
+    },
+    // 显示编辑对话框
+    showEditDia(user) {
+      this.form = user;
+      this.editFormVisible = true;
+    },
+    //修改用户
+    async editUser() {
+      // 将对话框隐藏
+      this.editFormVisible = false;
+      // 调用修改接口
+      const res = await this.$http.post("/sm/update", this.form);
+      const { code, msg } = res.data;
+      if (code === 0) {
+        this.$message.success(msg);
+        //重新更新数据
+        this.getUserList();
+      } else {
+        this.$message.error(msg);
+      }
+      // 清空from表单
+      this.form = {};
     },
   },
 };
