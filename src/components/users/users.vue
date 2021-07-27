@@ -189,8 +189,6 @@ export default {
   methods: {
     //获取用户列表数据
     async getUserList() {
-      const AUTH_TOKEN = localStorage.getItem("token");
-      this.$http.defaults.headers.common["Authorization"] = AUTH_TOKEN;
       //计算每页分页
       var start = this.start - 1;
       start = this.length * start;
