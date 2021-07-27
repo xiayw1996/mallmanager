@@ -23,9 +23,7 @@
             @click="searchUser()"
           />
         </el-input>
-        <el-button type="primary" @click="addFormVisible = true"
-          >添加用户</el-button
-        >
+        <el-button type="primary" @click="showAddDia()">添加用户</el-button>
       </el-col>
       <el-col>
         <el-table :data="userList" style="width: 100%">
@@ -45,6 +43,7 @@
                 v-model="userList.row.mgState"
                 active-color="#13ce66"
                 inactive-color="#ff4949"
+                @change="changeState(userList.row)"
               >
               </el-switch>
             </template>
@@ -73,6 +72,7 @@
                 type="success"
                 icon="el-icon-check"
                 circle
+                @click="showRoleDia(userList.row)"
               />
             </template>
           </el-table-column>
@@ -132,6 +132,30 @@
         <el-button type="primary" @click="editUser()">确 定</el-button>
       </div>
     </el-dialog>
+
+    <!-- 用户角色的对话框 -->
+    <el-dialog title="分配角色" :visible.sync="roleFormVisible">
+      <el-form :model="form">
+        <el-form-item label="用户名" label-width="120px">
+          {{ this.currUserName }}
+        </el-form-item>
+        <el-form-item label="角色" label-width="120px">
+          <el-select v-model="currRoleId">
+            <el-option label="请选择" :value="-1" />
+            <el-option
+              :label="item.roleName"
+              :value="item.roleId"
+              v-for="(item, i) in roles"
+              :key="i"
+            />
+          </el-select>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="roleFormVisible = false">取 消</el-button>
+        <el-button type="primary" @click="updateRole()">确 定</el-button>
+      </div>
+    </el-dialog>
   </el-card>
 </template>
 
@@ -145,6 +169,8 @@ export default {
       userList: [],
       total: 0,
       addFormVisible: false,
+      editFormVisible: false,
+      roleFormVisible: false,
       form: {
         mgId: -1,
         mgName: "",
@@ -152,7 +178,9 @@ export default {
         mgEmail: "",
         mgMobile: "",
       },
-      editFormVisible: false,
+      currRoleId: -1,
+      currUserName: "",
+      roles: [],
     };
   },
   created() {
@@ -183,7 +211,7 @@ export default {
     },
     //分页事件代码
     handleSizeChange(val) {
-      console.log(`每页 ${val} 条`);
+      // console.log(`每页 ${val} 条`);
       //将当前data中的数据当前页数改变
       this.length = val;
       //将当前页改为第一页
@@ -192,7 +220,7 @@ export default {
       this.getUserList();
     },
     handleCurrentChange(val) {
-      console.log(`当前页: ${val}`);
+      // console.log(`当前页: ${val}`);
       //修改当前页
       this.start = val;
       //重新获取数据
@@ -205,6 +233,13 @@ export default {
     //清空搜索框，重新加载数据
     loadUserList() {
       this.getUserList();
+    },
+    // 显示添加用户对话框
+    showAddDia() {
+      // 清空from表单
+      this.form = {};
+      // 显示对话框
+      this.addFormVisible = true;
     },
     //添加用户
     async addUser() {
@@ -220,8 +255,6 @@ export default {
       } else {
         this.$message.error(msg);
       }
-      // 清空from表单
-      this.form = {};
     },
     //显示删除对话框
     showDelDia(mgId) {
@@ -251,8 +284,14 @@ export default {
     async editUser() {
       // 将对话框隐藏
       this.editFormVisible = false;
+      // 初始化赋值参数
+      let param = {};
+      param.mgId = this.form.mgId;
+      param.mgName = this.form.mgName;
+      param.mgEmail = this.form.mgEmail;
+      param.mgMobile = this.form.mgMobile;
       // 调用修改接口
-      const res = await this.$http.post("/sm/update", this.form);
+      const res = await this.$http.post("/sm/update", param);
       const { code, msg } = res.data;
       if (code === 0) {
         this.$message.success(msg);
@@ -261,8 +300,46 @@ export default {
       } else {
         this.$message.error(msg);
       }
-      // 清空from表单
-      this.form = {};
+    },
+    // 改变用户状态
+    async changeState(user) {
+      let param = {};
+      param.mgId = user.mgId;
+      param.mgState = user.mgState;
+      const res = await this.$http.post("/sm/update", param);
+      if (res.data.code === 0) {
+        this.$message.success(res.data.msg);
+      } else {
+        this.$message.error(res.data.msg);
+      }
+    },
+    // 显示角色对话框
+    async showRoleDia(user) {
+      this.roleFormVisible = true;
+      this.currRoleId = user.roleId;
+      this.currUserName = user.mgName;
+      this.form = user;
+
+      const res = await this.$http.get("/sr/selectAll");
+      this.roles = res.data.data;
+    },
+    // 修改角色
+    async updateRole() {
+      // 隐藏对话框
+      this.roleFormVisible = false;
+      // 赋值请求字段
+      let param = {};
+      param.mgId = this.form.mgId;
+      param.roleId = this.currRoleId;
+      // 调用修改角色接口
+      const res = await this.$http.post("/sm/update", param);
+      // 调用数据刷新
+      this.getUserList();
+      if (res.data.code === 0) {
+        this.$message.success(res.data.msg);
+      } else {
+        this.$message.error(res.data.msg);
+      }
     },
   },
 };
