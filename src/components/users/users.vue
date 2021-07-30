@@ -23,74 +23,73 @@
             @click="searchUser()"
           />
         </el-input>
+      </el-col>
+      <el-col>
         <el-button type="primary" @click="showAddDia()">添加用户</el-button>
       </el-col>
-      <el-col>
-        <el-table :data="userList" style="width: 100%">
-          <el-table-column label="#" width="60" type="index" />
-          <el-table-column prop="mgName" label="姓名" width="100" />
-          <el-table-column prop="mgEmail" label="邮箱" />
-          <el-table-column prop="mgMobile" label="电话" />
-          <!-- slot-scope的值是从userList中的每一个row里取的 -->
-          <el-table-column label="创建时间">
-            <template slot-scope="userList">
-              {{ userList.row.mgTime | fmtdate }}
-            </template>
-          </el-table-column>
-          <el-table-column label="用户状态">
-            <template slot-scope="userList">
-              <el-switch
-                v-model="userList.row.mgState"
-                active-color="#13ce66"
-                inactive-color="#ff4949"
-                @change="changeState(userList.row)"
-              >
-              </el-switch>
-            </template>
-          </el-table-column>
-          <el-table-column prop="address" label="操作">
-            <template slot-scope="userList">
-              <el-button
-                size="mini"
-                plain
-                type="primary"
-                icon="el-icon-edit"
-                circle
-                @click="showEditDia(userList.row)"
-              />
-              <el-button
-                size="mini"
-                plain
-                type="danger"
-                icon="el-icon-delete"
-                circle
-                @click="showDelDia(userList.row.mgId)"
-              />
-              <el-button
-                size="mini"
-                plain
-                type="success"
-                icon="el-icon-check"
-                circle
-                @click="showRoleDia(userList.row)"
-              />
-            </template>
-          </el-table-column>
-        </el-table>
-      </el-col>
-      <el-col>
-        <el-pagination
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange"
-          :current-page="start"
-          :page-sizes="[2, 4, 6, 8]"
-          :page-size="length"
-          layout="total, sizes, prev, pager, next, jumper"
-          :total="total"
-        >
-        </el-pagination>
-      </el-col>
     </el-row>
+    <el-table :data="userList" style="width: 100%">
+      <el-table-column label="#" width="60" type="index" />
+      <el-table-column prop="mgName" label="姓名" width="100" />
+      <el-table-column prop="mgEmail" label="邮箱" />
+      <el-table-column prop="mgMobile" label="电话" />
+      <!-- slot-scope的值是从userList中的每一个row里取的 -->
+      <el-table-column label="创建时间">
+        <template slot-scope="userList">
+          {{ userList.row.mgTime | fmtdate }}
+        </template>
+      </el-table-column>
+      <el-table-column label="用户状态">
+        <template slot-scope="userList">
+          <el-switch
+            v-model="userList.row.mgState"
+            active-color="#13ce66"
+            inactive-color="#ff4949"
+            @change="changeState(userList.row)"
+          >
+          </el-switch>
+        </template>
+      </el-table-column>
+      <el-table-column prop="address" label="操作">
+        <template slot-scope="userList">
+          <el-button
+            size="mini"
+            plain
+            type="primary"
+            icon="el-icon-edit"
+            circle
+            @click="showEditDia(userList.row)"
+          />
+          <el-button
+            size="mini"
+            plain
+            type="danger"
+            icon="el-icon-delete"
+            circle
+            @click="showDelDia(userList.row.mgId)"
+          />
+          <el-button
+            size="mini"
+            plain
+            type="success"
+            icon="el-icon-check"
+            circle
+            @click="showRoleDia(userList.row)"
+          />
+        </template>
+      </el-table-column>
+    </el-table>
+
+    <el-pagination
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
+      :current-page="start"
+      :page-sizes="[2, 4, 6, 8]"
+      :page-size="length"
+      layout="total, sizes, prev, pager, next, jumper"
+      :total="total"
+    >
+    </el-pagination>
 
     <!-- 添加用户的对话框 -->
     <el-dialog title="添加用户" :visible.sync="addFormVisible">
@@ -352,5 +351,8 @@ export default {
 }
 .searchRow {
   margin-top: 20px;
+}
+.searchRow .el-col {
+  width: 320px;
 }
 </style>

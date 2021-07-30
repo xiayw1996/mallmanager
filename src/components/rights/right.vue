@@ -4,7 +4,7 @@
     <my-bread level1="权限管理" level2="权限列表" />
 
     <!-- 权限表格 -->
-    <el-table :data="rightList" border height="450px" class="tbClass">
+    <el-table :data="rightList" border height="445px" class="tbClass">
       <el-table-column label="#" width="100" type="index" />
       <el-table-column prop="psName" label="权限名称" />
       <el-table-column prop="psApiPath" label="路径" />
@@ -31,7 +31,7 @@ export default {
   },
   methods: {
     async getRightList() {
-      const res = await this.$http.get("/sp/selectAll");
+      const res = await this.$http.get("/sp/selectAll?type=0");
       this.rightList = res.data.data;
     },
   },
