@@ -6,7 +6,7 @@
     <!-- 添加按钮 -->
     <el-row class="addRoleBtn">
       <el-col>
-        <el-button type="primary">添加角色</el-button>
+        <el-button type="primary" @click="showAddDia()">添加角色</el-button>
       </el-col>
     </el-row>
 
@@ -75,7 +75,7 @@
             type="danger"
             icon="el-icon-delete"
             circle
-            @click="showDelDia(scope.row.mgId)"
+            @click="showDelDia(scope.row.id)"
           />
           <el-button
             size="mini"
@@ -106,6 +106,38 @@
         <el-button type="primary" @click="setRoleRight()">确 定</el-button>
       </div>
     </el-dialog>
+
+    <!-- 添加用户的对话框 -->
+    <el-dialog title="添加角色" :visible.sync="addFormVisible">
+      <el-form :model="form">
+        <el-form-item label="角色名称" label-width="120px">
+          <el-input v-model="form.roleName" autocomplete="off" />
+        </el-form-item>
+        <el-form-item label="角色描述" label-width="120px">
+          <el-input v-model="form.roleDesc" autocomplete="off" />
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="addFormVisible = false">取 消</el-button>
+        <el-button type="primary" @click="addRole()">确 定</el-button>
+      </div>
+    </el-dialog>
+
+    <!-- 编辑角色的对话框 -->
+    <el-dialog title="修改用户" :visible.sync="editFormVisible">
+      <el-form :model="form">
+        <el-form-item label="角色名称" label-width="120px">
+          <el-input v-model="form.roleName" autocomplete="off" />
+        </el-form-item>
+        <el-form-item label="角色描述" label-width="120px">
+          <el-input v-model="form.roleDesc" autocomplete="off" />
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="editFormVisible = false">取 消</el-button>
+        <el-button type="primary" @click="editRole()">确 定</el-button>
+      </div>
+    </el-dialog>
   </el-card>
 </template>
 <script>
@@ -122,6 +154,13 @@ export default {
       arrExpand: [],
       arrCheck: [],
       curRoleId: -1,
+      addFormVisible: false,
+      editFormVisible: false,
+      form: {
+        roleId: -1,
+        roleName: "",
+        roleDesc: "",
+      },
     };
   },
   created() {
@@ -183,6 +222,74 @@ export default {
       );
       this.getRoleList();
       this.editRightFormVisible = false;
+    },
+
+    // 显示添加角色对话框
+    showAddDia() {
+      // 清空from表单
+      this.form = {};
+      // 显示对话框
+      this.addFormVisible = true;
+    },
+    //添加用户
+    async addRole() {
+      // 将对话框隐藏
+      this.addFormVisible = false;
+      // 调用添加接口
+      const res = await this.$http.post("/sr/insert", this.form);
+      const { code, msg } = res.data;
+      if (code === 0) {
+        this.$message.success(msg);
+        //重新更新数据
+        this.getRoleList();
+      } else {
+        this.$message.error(msg);
+      }
+    },
+    //显示删除对话框
+    showDelDia(roleId) {
+      this.$confirm("删除该条记录, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      }).then(async () => {
+        const res = await this.$http.post("/sr/delete?roleId=" + roleId);
+        if (res.data.code === 0) {
+          this.$message.success("删除成功!");
+          //设置当前页是第一页
+          this.start = 1;
+          //重新更新数据
+          this.getRoleList();
+        } else {
+          this.$message.error(res.data.msg);
+        }
+      });
+    },
+    // 显示编辑对话框
+    showEditDia(role) {
+      this.form = role;
+      this.editFormVisible = true;
+    },
+    //修改角色
+    async editRole() {
+      // 将对话框隐藏
+      this.editFormVisible = false;
+      // 初始化赋值参数
+      let param = {};
+      console.log(this.form);
+      param.roleId = this.form.id;
+      param.roleName = this.form.roleName;
+      param.roleDesc = this.form.roleDesc;
+      // 调用修改接口
+      const res = await this.$http.post("/sr/update", param);
+      const { code, msg } = res.data;
+      if (code === 0) {
+        this.$message.success(msg);
+        //重新更新数据
+        this.getRoleList();
+      } else {
+        this.$message.error(msg);
+      }
     },
   },
 };

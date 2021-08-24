@@ -23,6 +23,14 @@ MyHttpServer.install = (Vue) => {
 
   // 添加响应拦截器
   axios.interceptors.response.use(function (response) {
+    var data = response.data;
+    if (data !== null && data.code === 999) {
+      alert("token超时,请重新登录");
+      //清除token
+      localStorage.clear();
+      //重定向到登录页面
+      window.location.replace("/login");
+    }
     // 对响应数据做点什么
     return response;
   }, function (error) {

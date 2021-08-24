@@ -34,11 +34,14 @@
       <el-table-column prop="mgEmail" label="邮箱" />
       <el-table-column prop="mgMobile" label="电话" />
       <!-- slot-scope的值是从userList中的每一个row里取的 -->
-      <el-table-column label="创建时间">
+      <!-- 
+        <el-table-column label="创建时间">
         <template slot-scope="userList">
           {{ userList.row.mgTime | fmtdate }}
         </template>
       </el-table-column>
+       -->
+      <el-table-column prop="mgTime1" label="创建时间" />
       <el-table-column label="用户状态">
         <template slot-scope="userList">
           <el-switch
@@ -84,7 +87,7 @@
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
       :current-page="start"
-      :page-sizes="[2, 4, 6, 8]"
+      :page-sizes="[6, 10, 20, 40]"
       :page-size="length"
       layout="total, sizes, prev, pager, next, jumper"
       :total="total"
@@ -98,7 +101,7 @@
           <el-input v-model="form.mgName" autocomplete="off" />
         </el-form-item>
         <el-form-item label="密码" label-width="120px">
-          <el-input v-model="form.mgPwd" autocomplete="off" />
+          <el-input v-model="form.mgPwd" autocomplete="off" show-password />
         </el-form-item>
         <el-form-item label="邮箱" label-width="120px">
           <el-input v-model="form.mgEmail" autocomplete="off" />
@@ -164,7 +167,7 @@ export default {
     return {
       query: "",
       start: 1,
-      length: 2,
+      length: 6,
       userList: [],
       total: 0,
       addFormVisible: false,
@@ -189,8 +192,7 @@ export default {
     //获取用户列表数据
     async getUserList() {
       //计算每页分页
-      var start = this.start - 1;
-      start = this.length * start;
+      var start = this.length * (this.start - 1);
 
       const res = await this.$http.get(
         "/sm/users?query=" +
@@ -240,12 +242,12 @@ export default {
     },
     //添加用户
     async addUser() {
-      // 将对话框隐藏
-      this.addFormVisible = false;
       // 调用添加接口
       const res = await this.$http.post("/sm/insert", this.form);
       const { code, msg } = res.data;
       if (code === 0) {
+        // 将对话框隐藏
+        this.addFormVisible = false;
         this.$message.success(msg);
         //重新更新数据
         this.getUserList();
@@ -279,8 +281,6 @@ export default {
     },
     //修改用户
     async editUser() {
-      // 将对话框隐藏
-      this.editFormVisible = false;
       // 初始化赋值参数
       let param = {};
       param.mgId = this.form.mgId;
@@ -291,6 +291,8 @@ export default {
       const res = await this.$http.post("/sm/update", param);
       const { code, msg } = res.data;
       if (code === 0) {
+        // 将对话框隐藏
+        this.editFormVisible = false;
         this.$message.success(msg);
         //重新更新数据
         this.getUserList();

@@ -28,7 +28,7 @@
               <span>用户管理</span>
             </template>
             <el-menu-item index="users">
-              <i class="el-icon-user"></i>
+              <i class="el-icon-user-solid"></i>
               <span>用户列表</span>
             </el-menu-item>
           </el-submenu>
@@ -53,8 +53,8 @@
               <i class="el-icon-menu"></i>
               <span>商品管理</span>
             </template>
-            <el-menu-item index="3-1">
-              <i class="el-icon-menu"></i>
+            <el-menu-item index="goods">
+              <i class="el-icon-s-goods"></i>
               <span>商品列表</span>
             </el-menu-item>
             <el-menu-item index="3-1">
@@ -72,8 +72,8 @@
               <i class="el-icon-menu"></i>
               <span>订单管理</span>
             </template>
-            <el-menu-item index="4-1">
-              <i class="el-icon-menu"></i>
+            <el-menu-item index="orders">
+              <i class="el-icon-s-order"></i>
               <span>订单列表</span>
             </el-menu-item>
           </el-submenu>
@@ -83,8 +83,8 @@
               <i class="el-icon-menu"></i>
               <span>数据统计</span>
             </template>
-            <el-menu-item index="5-1">
-              <i class="el-icon-menu"></i>
+            <el-menu-item index="reports">
+              <i class="el-icon-s-data"></i>
               <span>数据报表</span>
             </el-menu-item>
           </el-submenu>

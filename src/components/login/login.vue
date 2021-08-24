@@ -11,7 +11,7 @@
         <el-input v-model="formLabelAlign.username"></el-input>
       </el-form-item>
       <el-form-item label="密码">
-        <el-input v-model="formLabelAlign.password"></el-input>
+        <el-input v-model="formLabelAlign.password" show-password></el-input>
       </el-form-item>
       <el-button
         class="login-btn"
