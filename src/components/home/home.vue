@@ -4,11 +4,11 @@
       <el-row>
         <el-col :span="4">
           <div class="grid-content bg-purple">
-            <img src="@/assets/logo1.png" alt="无法显示图片" />
+            <img class="logo" src="@/assets/logo.png" alt="无法显示图片" />
           </div>
         </el-col>
         <el-col :span="18" class="middle">
-          <h2>一个好玩的管理平台</h2>
+          <h2>后端管理平台</h2>
         </el-col>
         <el-col :span="2">
           <div class="grid-content bg-purple">
@@ -21,7 +21,13 @@
     </el-header>
     <el-container>
       <el-aside class="aside" width="200px">
-        <el-menu :router="true" :unique-opened="true">
+        <el-menu
+          :router="true"
+          :unique-opened="true"
+          background-color="#aacef8"
+          text-color="#fff"
+          active-text-color="#00ffff"
+        >
           <el-submenu index="1">
             <template slot="title">
               <i class="el-icon-menu"></i>
@@ -125,13 +131,13 @@ export default {
   height: 100%;
 }
 .header {
-  background-color: #b3c0d1;
+  background-color: #6bbeee;
 }
 .aside {
-  background-color: #d3dce6;
+  background-color: #a8c4e4;
 }
 .main {
-  background-color: #e9eef3;
+  background-color: #d3dae0;
 }
 /* 头部样式 */
 .middle {
@@ -141,5 +147,10 @@ export default {
 .loginout {
   line-height: 60px;
   text-decoration: none;
+}
+.logo {
+  margin-top: 4px;
+  width: 160px;
+  height: 50px;
 }
 </style>

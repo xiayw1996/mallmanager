@@ -23,7 +23,7 @@
     </el-row>
 
     <!-- 商品表格 -->
-    <el-table :data="goodList" border height="445px" class="tbClass">
+    <el-table :data="goodList" border height="430px" class="tbClass">
       <el-table-column label="#" width="100" type="index" />
       <el-table-column prop="goodsName" label="商品名称" />
       <el-table-column prop="goodsPrice" label="商品价格" />
