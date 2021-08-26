@@ -7,6 +7,7 @@ import '@/assets/css/reset.css'
 import MyHttpServer from '@/plugins/http.js'
 import moment from 'moment'
 import MyBread from '@/components/cuscom/myBread.vue'
+import * as echarts from 'echarts'
 
 Vue.use(ElementUI)
 Vue.use(MyHttpServer)
@@ -19,6 +20,9 @@ Vue.filter('fmtdate', (v) => {
 })
 // 全局自定义组件
 Vue.component(MyBread.name, MyBread)
+
+//echarts
+Vue.prototype.$echarts = echarts
 
 new Vue({
   router,

@@ -57,12 +57,12 @@
               <i class="el-icon-s-goods"></i>
               <span>商品列表</span>
             </el-menu-item>
-            <el-menu-item index="3-1">
-              <i class="el-icon-menu"></i>
+            <el-menu-item index="categories">
+              <i class="el-icon-copy-document"></i>
               <span>分类参数</span>
             </el-menu-item>
-            <el-menu-item index="3-1">
-              <i class="el-icon-menu"></i>
+            <el-menu-item index="goodsCats">
+              <i class="el-icon-box"></i>
               <span>商品分类</span>
             </el-menu-item>
           </el-submenu>

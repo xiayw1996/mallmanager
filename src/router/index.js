@@ -8,6 +8,8 @@ import Role from '@/components/rights/role.vue'
 import Goods from '@/components/goods/goods.vue'
 import Orders from '@/components/orders/orders.vue'
 import Reports from '@/components/reports/reports.vue'
+import Categories from '@/components/categories/categories.vue'
+import GoodsCats from '@/components/goodsCats/goodsCats.vue'
 
 Vue.use(VueRouter)
 
@@ -40,6 +42,16 @@ const routes = [
       name: 'goods',
       path: 'goods',
       component: Goods
+    },
+    {
+      name: 'categories',
+      path: 'categories',
+      component: Categories
+    },
+    {
+      name: 'goodsCats',
+      path: 'goodsCats',
+      component: GoodsCats
     },
     {
       name: 'orders',
