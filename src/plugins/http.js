@@ -1,6 +1,7 @@
 //插件模块
 
 import axios from 'axios'
+import { MessageBox } from 'element-ui'
 
 const MyHttpServer = {}
 
@@ -24,12 +25,17 @@ MyHttpServer.install = (Vue) => {
   // 添加响应拦截器
   axios.interceptors.response.use(function (response) {
     var data = response.data;
+    //如果后端返回的code是999，就返回到登录界面
     if (data !== null && data.code === 999) {
-      alert("token超时,请重新登录");
-      //清除token
-      localStorage.clear();
-      //重定向到登录页面
-      window.location.replace("/login");
+      MessageBox.confirm("请重新登录", "token超时", {
+        showClose: false,
+        showCancelButton: false,
+      }).then(() => {
+        //清除token
+        localStorage.clear();
+        //重定向到登录页面
+        window.location.replace("/login");
+      });
     }
     // 对响应数据做点什么
     return response;

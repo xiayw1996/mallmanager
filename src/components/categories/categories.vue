@@ -19,7 +19,7 @@
     </el-row>
 
     <!-- 分类表格 -->
-    <el-table :data="categorieList" border height="300px" class="tbClass">
+    <el-table :data="categorieList" border height="350px" class="tbClass">
       <el-table-column label="#" width="100" type="index" />
       <el-table-column prop="catName" label="分类名称" />
       <el-table-column prop="catLevel" label="分类层级" />

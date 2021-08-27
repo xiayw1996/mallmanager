@@ -28,7 +28,7 @@
         <el-button type="primary" @click="showAddDia()">添加用户</el-button>
       </el-col>
     </el-row>
-    <el-table :data="userList" style="width: 100%">
+    <el-table :data="userList" height="350px" style="width: 100%">
       <el-table-column label="#" width="60" type="index" />
       <el-table-column prop="mgName" label="姓名" width="100" />
       <el-table-column prop="mgEmail" label="邮箱" />
@@ -87,7 +87,7 @@
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
       :current-page="start"
-      :page-sizes="[6, 10, 20, 40]"
+      :page-sizes="[5, 10, 20, 40]"
       :page-size="length"
       layout="total, sizes, prev, pager, next, jumper"
       :total="total"
@@ -167,7 +167,7 @@ export default {
     return {
       query: "",
       start: 1,
-      length: 6,
+      length: 5,
       userList: [],
       total: 0,
       addFormVisible: false,
