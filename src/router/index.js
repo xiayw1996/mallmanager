@@ -6,10 +6,10 @@ import Users from '@/components/users/users.vue'
 import Right from '@/components/rights/right.vue'
 import Role from '@/components/rights/role.vue'
 import Goods from '@/components/goods/goods.vue'
+import Categories from '@/components/goods/categories.vue'
+import GoodsCats from '@/components/goods/goodsCats.vue'
 import Orders from '@/components/orders/orders.vue'
 import Reports from '@/components/reports/reports.vue'
-import Categories from '@/components/categories/categories.vue'
-import GoodsCats from '@/components/goodsCats/goodsCats.vue'
 
 Vue.use(VueRouter)
 

@@ -220,8 +220,18 @@ export default {
           "&psIds=" +
           arr.join(",")
       );
-      this.getRoleList();
-      this.editRightFormVisible = false;
+      //将返回结果赋值
+      const { code, msg } = res.data;
+      // 如果返回结果成功就返回成功
+      if (code === 0) {
+        // 返回成功信息，刷新角色列表，关闭权限窗口
+        this.$message.success(msg);
+        this.getRoleList();
+        this.editRightFormVisible = false;
+      } else {
+        // 返回失败信息
+        this.$message.error(msg);
+      }
     },
 
     // 显示添加角色对话框
@@ -231,7 +241,7 @@ export default {
       // 显示对话框
       this.addFormVisible = true;
     },
-    //添加用户
+    //添加角色
     async addRole() {
       // 将对话框隐藏
       this.addFormVisible = false;
@@ -254,14 +264,15 @@ export default {
         type: "warning",
       }).then(async () => {
         const res = await this.$http.post("/sr/delete?roleId=" + roleId);
-        if (res.data.code === 0) {
-          this.$message.success("删除成功!");
+        const {code, msg} = res.data;
+        if (code === 0) {
+          this.$message.success(msg);
           //设置当前页是第一页
           this.start = 1;
           //重新更新数据
           this.getRoleList();
         } else {
-          this.$message.error(res.data.msg);
+          this.$message.error(msg);
         }
       });
     },
@@ -276,7 +287,6 @@ export default {
       this.editFormVisible = false;
       // 初始化赋值参数
       let param = {};
-      console.log(this.form);
       param.roleId = this.form.id;
       param.roleName = this.form.roleName;
       param.roleDesc = this.form.roleDesc;
