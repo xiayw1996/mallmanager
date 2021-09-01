@@ -46,18 +46,18 @@ export default {
   },
   methods: {
     getReport() {
-      this.chart("myChart1", "bar", this.chartDate1);
-      this.chart("myChart2", "line", this.chartDate2);
+      this.chart("/sr1/select", "myChart1", "bar", this.chartDate1);
+      this.chart("/sr2/select", "myChart2", "line", this.chartDate2);
     },
     search1() {
-      //获取图表id是myChart1,类型是柱状图,时间区间是选择好的
-      this.chart("myChart1", "bar", this.chartDate1);
+      //接口路径，图表id是myChart1,类型是柱状图,时间区间是选择好的
+      this.chart("/sr1/select", "myChart1", "bar", this.chartDate1);
     },
     search2() {
-      this.chart("myChart2", "line", this.chartDate2);
+      this.chart("/sr2/select", "myChart2", "line", this.chartDate2);
     },
-    //根据图表绑定的id，图表的类型，时间区间，来获取图表
-    async chart(chartId, chartType, chartDate) {
+    //根据接口路径，图表绑定的id，图表的类型，时间区间，来获取图表
+    async chart(url, chartId, chartType, chartDate) {
       //初始化参数
       let startDate = "";
       let endDate = "";
@@ -71,7 +71,7 @@ export default {
       }
       //调用图表数据返回接口
       const res = await this.$http.get(
-        "/sr1/select?startDate=" + startDate + "&endDate=" + endDate
+        url + "?startDate=" + startDate + "&endDate=" + endDate
       );
       //将结果赋值
       const { code, data } = res.data;
