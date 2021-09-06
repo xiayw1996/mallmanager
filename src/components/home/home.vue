@@ -11,7 +11,10 @@
           <h2>后端管理平台</h2>
         </el-col>
         <el-col :span="2">
-          <p>{{ userName }}</p>
+          <div class="user">
+            <i class="el-icon-user" />
+            <span> {{ userName }}</span>
+          </div>
         </el-col>
         <el-col :span="1">
           <div class="grid-content bg-purple">
@@ -104,7 +107,7 @@
               <span>图片管理</span>
             </template>
             <el-menu-item index="imgManager">
-              <i class="el-icon-s-data"></i>
+              <i class="el-icon-picture"></i>
               <span>图表列表</span>
             </el-menu-item>
           </el-submenu>
@@ -122,10 +125,10 @@ export default {
   name: "home",
   data() {
     return {
-      userName: "",
+      userName: "未登录",
     };
   },
-  beforeCreate() {
+  created() {
     //获取token
     const token = localStorage.getItem("token");
     this.userName = localStorage.getItem("userName");
@@ -172,5 +175,8 @@ export default {
   margin-top: 4px;
   width: 160px;
   height: 50px;
+}
+.user{
+  margin-top: 20px;
 }
 </style>
