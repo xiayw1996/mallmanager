@@ -46,6 +46,10 @@ export default {
       if (code === 0) {
         //保存token
         localStorage.setItem("token", data.token);
+        //保存用户id
+        localStorage.setItem("userId", data.id);
+        //保存用户名
+        localStorage.setItem("userName", data.username);
         //返回登录的成功消息
         this.$message.success(msg);
         //跳转到home页面

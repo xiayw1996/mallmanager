@@ -10,6 +10,7 @@ import Categories from '@/components/goods/categories.vue'
 import GoodsCats from '@/components/goods/goodsCats.vue'
 import Orders from '@/components/orders/orders.vue'
 import Reports from '@/components/reports/reports.vue'
+import ImgManager from '@/components/imgManager/imgManager.vue'
 
 Vue.use(VueRouter)
 
@@ -62,6 +63,11 @@ const routes = [
       name: 'reports',
       path: 'reports',
       component: Reports
+    },
+    {
+      name: 'imgManager',
+      path: 'imgManager',
+      component: ImgManager
     }
     ]
   }

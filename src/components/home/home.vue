@@ -7,10 +7,13 @@
             <img class="logo" src="@/assets/logo.png" alt="无法显示图片" />
           </div>
         </el-col>
-        <el-col :span="18" class="middle">
+        <el-col :span="17" class="middle">
           <h2>后端管理平台</h2>
         </el-col>
         <el-col :span="2">
+          <p>{{ userName }}</p>
+        </el-col>
+        <el-col :span="1">
           <div class="grid-content bg-purple">
             <a class="loginout" @click.prevent="handleSignout()" href="#"
               >退出</a
@@ -94,6 +97,17 @@
               <span>数据报表</span>
             </el-menu-item>
           </el-submenu>
+
+          <el-submenu index="6">
+            <template slot="title">
+              <i class="el-icon-menu"></i>
+              <span>图片管理</span>
+            </template>
+            <el-menu-item index="imgManager">
+              <i class="el-icon-s-data"></i>
+              <span>图表列表</span>
+            </el-menu-item>
+          </el-submenu>
         </el-menu>
       </el-aside>
       <el-main class="main">
@@ -106,9 +120,15 @@
 <script>
 export default {
   name: "home",
+  data() {
+    return {
+      userName: "",
+    };
+  },
   beforeCreate() {
     //获取token
     const token = localStorage.getItem("token");
+    this.userName = localStorage.getItem("userName");
     //如果有就继续，没有就返回登录页
     if (!token) {
       this.$router.push({ name: "login" });
