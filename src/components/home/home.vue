@@ -176,7 +176,7 @@ export default {
   width: 160px;
   height: 50px;
 }
-.user{
+.user {
   margin-top: 20px;
 }
 </style>

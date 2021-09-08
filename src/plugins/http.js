@@ -7,7 +7,7 @@ const MyHttpServer = {}
 
 MyHttpServer.install = (Vue) => {
 
-  axios.defaults.baseURL = 'http://localhost:8080'
+  axios.defaults.baseURL = 'http://localhost'
 
   // 添加请求拦截器
   axios.interceptors.request.use(function (config) {

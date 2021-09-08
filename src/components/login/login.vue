@@ -25,6 +25,9 @@
         >登录</el-button
       >
     </el-form>
+    <div class="footer">
+      <a href="https://beian.miit.gov.cn/">鄂ICP备2021006086号-1</a>
+    </div>
   </div>
 </template>
 
@@ -68,7 +71,7 @@ export default {
   height: 100%;
   background-color: #324153;
   /* 弹性盒布局 */
-  display: flex;
+
   justify-content: center;
   align-items: center;
 }
@@ -77,8 +80,24 @@ export default {
   background-color: #fff;
   border-radius: 5px;
   padding: 30px;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  margin: auto;
+  position: fixed;
+  height: 350px;
 }
 .login-wrap .login-btn {
   width: 100%;
+}
+.footer {
+  height: 25px;
+  width: 184px;
+  position: fixed;
+  margin: auto;
+  left: 0px;
+  right: 0px;
+  bottom: 10px;
 }
 </style>
