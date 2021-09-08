@@ -8,9 +8,8 @@
       <el-col>
         <el-upload
           class="upload-img"
-          action="#"
+          action=""
           :show-file-list="false"
-          :limit="1"
           :multiple="false"
           accept="image/png,image/jpg,image/jpeg,image/bmp,image/gif"
           :http-request="uploadImg"
@@ -96,7 +95,7 @@ export default {
 
       //调用后端上传图片接口
       let param1 = new FormData();
-      param1.append("id", localStorage.getItem("userId"));
+      param1.append("userId", localStorage.getItem("userId"));
       param1.append("file", param.file);
       const res = await this.$http.post("/sim/upload", param1);
       const { code, msg } = res.data;
