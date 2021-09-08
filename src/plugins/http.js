@@ -34,7 +34,7 @@ MyHttpServer.install = (Vue) => {
         //清除token
         localStorage.clear();
         //重定向到登录页面
-        window.location.replace("/login");
+        window.location.replace("/");
       });
     }
     // 对响应数据做点什么
