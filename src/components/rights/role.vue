@@ -264,7 +264,7 @@ export default {
         type: "warning",
       }).then(async () => {
         const res = await this.$http.post("/sr/delete?roleId=" + roleId);
-        const {code, msg} = res.data;
+        const { code, msg } = res.data;
         if (code === 0) {
           this.$message.success(msg);
           //设置当前页是第一页
@@ -295,11 +295,11 @@ export default {
       const { code, msg } = res.data;
       if (code === 0) {
         this.$message.success(msg);
-        //重新更新数据
-        this.getRoleList();
       } else {
         this.$message.error(msg);
       }
+      //重新更新数据
+      this.getRoleList();
     },
   },
 };

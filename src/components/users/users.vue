@@ -311,6 +311,8 @@ export default {
       } else {
         this.$message.error(res.data.msg);
       }
+      // 调用数据刷新
+      this.getUserList();
     },
     // 显示角色对话框
     async showRoleDia(user) {
@@ -324,21 +326,21 @@ export default {
     },
     // 修改角色
     async updateRole() {
-      // 隐藏对话框
-      this.roleFormVisible = false;
       // 赋值请求字段
       let param = {};
       param.mgId = this.form.mgId;
       param.roleId = this.currRoleId;
       // 调用修改角色接口
       const res = await this.$http.post("/sm/update", param);
-      // 调用数据刷新
-      this.getUserList();
       if (res.data.code === 0) {
         this.$message.success(res.data.msg);
+        // 隐藏对话框
+        this.roleFormVisible = false;
       } else {
         this.$message.error(res.data.msg);
       }
+      // 调用数据刷新
+      this.getUserList();
     },
   },
 };
